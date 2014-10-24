@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tool33"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#565e67"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <View 
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        />
+    <ImageButton
+        android:id="@+id/imageBtn3_1"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/tool33_1" >
+    </ImageButton>
+	<View 
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        />
+    <ImageButton
+        android:id="@+id/imageBtn3_2"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/tool33_2" >
+    </ImageButton>
+	<View 
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        />
+</LinearLayout>

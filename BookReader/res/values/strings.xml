@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BookReader</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    
+    <string name="about_book">关于本书</string>
+    <string name="input_book">导入本地书目</string>
+    <string name="feedback">反馈</string>
+ <!-- bookpop.xml -->
+    <string name="bookpop_size">字体</string>
+    <string name="bookpop_light">亮度</string>
+    <string name="bookpop_card">书签</string>
+    <string name="bookpop_send">跳转</string>
+    <string name="bookpop_set">设置</string>
+    <string name="bookpop_night">夜间</string>
+    
+    <string name="delsuc">删除成功</string>
+    <string name="insertsdcard">请插入SD卡</string>
+    
+    <string name="dialog_read_from_dir">Open from dir</string>
+    <string name="explorer">Explorer</string>
+</resources>

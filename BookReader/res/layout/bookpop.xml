@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="64dp"
+    android:background="#565e67"
+    android:baselineAligned="false" >
+
+    <TextView
+        android:id="@+id/bookBtn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="@drawable/icon_menu_bottom" />
+
+    <TextView
+        android:id="@+id/bookBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="@drawable/icon_menu_bottom3_night" />
+
+    <TextView
+        android:id="@+id/bookBtn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="@drawable/btn_menu_screen_shu_light_press_no" />
+
+    <TextView
+        android:id="@+id/bookBtn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/btn_menu_screen_shu_light_jump" />
+
+</LinearLayout>

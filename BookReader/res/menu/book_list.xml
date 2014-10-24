@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.pmmq.bookreader.BookListActivity" >
+
+    <item
+        android:id="@+id/it1"
+        android:title="@string/input_book">
+    </item>
+    <item
+        android:id="@+id/it2"
+        android:title="@string/feedback">
+    </item>
+    <item
+        android:id="@+id/it3"
+        android:title="@string/about_book">
+    </item>
+
+</menu>
