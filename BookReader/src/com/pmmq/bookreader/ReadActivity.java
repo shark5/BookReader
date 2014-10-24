@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -749,9 +751,18 @@ public class ReadActivity extends Activity implements OnClickListener, OnSeekBar
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.d(TAG, "onResume");
+		MobclickAgent.onResume(this);
 	}
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	MobclickAgent.onPause(this);
+    }
 
 	/**
 	 * 刷新界面
@@ -771,11 +782,6 @@ public class ReadActivity extends Activity implements OnClickListener, OnSeekBar
 
 		mPageWidget.setBitmaps(mCurPageBitmap, mNextPageBitmap);
 		mPageWidget.postInvalidate();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
 	}
 
 	@Override

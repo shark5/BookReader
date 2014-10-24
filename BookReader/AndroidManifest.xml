@@ -8,6 +8,11 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
@@ -36,6 +41,10 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
 		</activity>  
+		
+		<meta-data android:value="544a0b74fd98c5c635024f29" android:name="UMENG_APPKEY"></meta-data>
+		<meta-data android:value="Wandoujia" android:name="UMENG_CHANNEL"/>
+
     </application>
 
 </manifest>

@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.File;
 
+import com.umeng.analytics.MobclickAgent;
+
 public class ExDialog extends ListActivity {
 	private List<Map<String, Object>> mData;
 	private String mDir = "/sdcard";
@@ -55,6 +57,20 @@ public class ExDialog extends ListActivity {
 		p.width = (int) (d.getWidth() * 0.95);
 		getWindow().setAttributes(p);
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.d(TAG, "onResume");
+		MobclickAgent.onResume(this);
+	}
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	MobclickAgent.onPause(this);
+    }
 
 	private List<Map<String, Object>> getData() {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();

@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -87,6 +89,20 @@ public class OpenFileActivity extends Activity {
 		getListFile();
 		mlvFileList.setOnItemClickListener(itemClick);
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.d(TAG, "onResume");
+		MobclickAgent.onResume(this);
+	}
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	MobclickAgent.onPause(this);
+    }
 	
 	private void getListFile() {
 		mAdapter.clearItems();

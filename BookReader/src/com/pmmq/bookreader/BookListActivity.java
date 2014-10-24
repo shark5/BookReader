@@ -10,6 +10,7 @@ import org.litepal.crud.DataSupport;
 
 import com.pmmq.bookreader.model.EBook;
 import com.pmmq.bookreader.util.CopyFileFromAssets;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -55,6 +56,8 @@ public class BookListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
         Log.d(TAG, "onCreate");
+        //友盟统计
+        MobclickAgent.updateOnlineConfig(this);
         //导入txt
         new CopyFileFromAssets().testCopy(this);
 
@@ -122,9 +125,17 @@ public class BookListActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		Log.d(TAG, "onResume");
+		MobclickAgent.onResume(this);
 		getDataForBookList();
+		
 	}
-
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	MobclickAgent.onPause(this);
+		closeProgressDialog();
+    }
 	/**
 	 * 加载listview 的adapter
 	 */
@@ -304,9 +315,5 @@ public class BookListActivity extends Activity {
 		}
 	}
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		closeProgressDialog();
-	}
+	
 }
