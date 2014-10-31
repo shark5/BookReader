@@ -8,8 +8,6 @@ import java.util.Date;
 import com.pmmq.bookreader.model.EBook;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 public class CopyFileFromAssets {
 	private String TAG = "CopyFileFromAssets";
@@ -53,15 +51,15 @@ public class CopyFileFromAssets {
 	 
 	 public void testCopy(Context context) {
 		 String path = context.getFilesDir().getAbsolutePath();
-		 Log.d(TAG, "testCopy path = " + path);
+		 Logger.d(TAG, "testCopy path = " + path);
 
 	     String name = "test.txt";
 	     int result = CopyFileFromAssets.copy(context, name, path, name);
 	     if(result == 1){
 		     EBook book = new EBook();
 		     book.setPath(path + "/" + name);
-		     book.setBookName("盘龙");
-		     book.setAuth("我吃西红柿");
+		     book.setBookName("绝世唐门");
+		     book.setAuth("唐家三少");
 		     book.setImportDate(new Date());
 		     book.setProgress(0);
 		     book.setImportType("推荐书目");

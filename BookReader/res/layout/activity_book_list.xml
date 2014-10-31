@@ -1,13 +1,27 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.pmmq.bookreader.BookListActivity$PlaceholderFragment" >
 
+    <!-- <RelativeLayout 
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        >
+        <TextView 
+            android:text="@string/mybookrack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout> -->
     <ListView 
         android:id="@+id/book_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         ></ListView>
 
-</RelativeLayout>
+</LinearLayout>

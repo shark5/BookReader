@@ -7,10 +7,10 @@
         android:id="@+id/it1"
         android:title="@string/input_book">
     </item>
-    <item
+    <!-- <item
         android:id="@+id/it2"
         android:title="@string/feedback">
-    </item>
+    </item> -->
     <item
         android:id="@+id/it3"
         android:title="@string/about_book">

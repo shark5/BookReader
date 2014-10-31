@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ItemTitle2"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="78dip" />
+            android:paddingLeft="83dip" />
 
         <TextView
             android:id="@+id/last"

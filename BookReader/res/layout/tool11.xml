@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/reader_screen_brightness"
+            android:background="@drawable/reader_screen_brightness_less"
             android:padding="8dp"
             />
         <SeekBar

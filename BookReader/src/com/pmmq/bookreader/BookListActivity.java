@@ -10,8 +10,10 @@ import org.litepal.crud.DataSupport;
 
 import com.pmmq.bookreader.model.EBook;
 import com.pmmq.bookreader.util.CopyFileFromAssets;
+import com.pmmq.bookreader.util.Logger;
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -22,7 +24,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,19 +56,22 @@ public class BookListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
-        Log.d(TAG, "onCreate");
+        Logger.d(TAG, "onCreate");
+        setTitle(R.string.mybookrack);
+        showProgressDialog("加载中...");
+        
         //友盟统计
         MobclickAgent.updateOnlineConfig(this);
         //导入txt
         new CopyFileFromAssets().testCopy(this);
 
-        File sdDir = null; 
+        /*File sdDir = null; 
         boolean sdCardExist = Environment.getExternalStorageState()   
                             .equals(android.os.Environment.MEDIA_MOUNTED);   //判断sd卡是否存在 
         if(sdCardExist){                               
           sdDir = Environment.getExternalStorageDirectory();//获取跟目录 
-        }   
-        Log.d(TAG, "onCreate" + Environment.getExternalStorageDirectory().getAbsolutePath());
+        } */  
+        Logger.d(TAG, "onCreate" + Environment.getExternalStorageDirectory().getAbsolutePath());
 //        Environment.getExternalStorageDirectory().getExternalStorageDirectory();//获取SD卡根目录
 
         mBookListView = (ListView)findViewById(R.id.book_list);
@@ -79,7 +83,7 @@ public class BookListActivity extends Activity {
      			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 
      				menu.add(Menu.NONE, 0, 0, "从阅读列表中删除");
-     				menu.add(Menu.NONE, 1, 0, "创建快捷方式");
+     				//menu.add(Menu.NONE, 1, 0, "创建快捷方式");
      			}
 
      		});
@@ -107,9 +111,9 @@ public class BookListActivity extends Activity {
      						startActivity(intent);
      					}
      				} catch (SQLException e) {
-     					Log.e(TAG, "list.setOnItemClickListener-> SQLException error", e);
+     					Logger.e(TAG, "list.setOnItemClickListener-> SQLException error", e);
      				} catch (Exception e) {
-     					Log.e(TAG, "list.setOnItemClickListener Exception", e);
+     					Logger.e(TAG, "list.setOnItemClickListener Exception", e);
      				}
      			}
      		});
@@ -124,7 +128,7 @@ public class BookListActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Log.d(TAG, "onResume");
+		Logger.d(TAG, "onResume");
 		MobclickAgent.onResume(this);
 		getDataForBookList();
 		
@@ -140,7 +144,7 @@ public class BookListActivity extends Activity {
 	 * 加载listview 的adapter
 	 */
 	private void setAdapter() {
-		Log.d(TAG, "setAdapter");
+		Logger.d(TAG, "setAdapter");
 		// 生成适配器的Item和动态数组对应的元素
 		listItemAdapter = new SimpleAdapter(this, listItem,// 数据源
 				R.layout.book_list_item,// ListItem的XML实现
@@ -155,7 +159,7 @@ public class BookListActivity extends Activity {
 	private void getDataForBookList(){
 		//从数据库读取数据
         eBookList = DataSupport.findAll(EBook.class);
-        Log.d(TAG, eBookList.toString());
+        Logger.d(TAG, eBookList.toString());
         if (listItem == null){
         	listItem = new ArrayList<HashMap<String, Object>>();
         }
@@ -179,6 +183,7 @@ public class BookListActivity extends Activity {
 			listItem.add(map);
         }
         listItemAdapter.notifyDataSetChanged();
+        closeProgressDialog();
 	}
 
     @Override
@@ -189,7 +194,7 @@ public class BookListActivity extends Activity {
         return true;
     }
 
-    @Override
+    @SuppressLint("SdCardPath") @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -205,17 +210,14 @@ public class BookListActivity extends Activity {
 			intent.setClass(BookListActivity.this, ExDialog.class);
 			startActivityForResult(intent, REQUST_CODE_OPEN_FILE);
 			break;
-		case R.id.it2:
+		/*case R.id.it2:
 			// 进入反馈界面
-			break;
+			break;*/
 		case R.id.it3:
 			// 进入关于界面
-			/*AboutDialog about;
-			about = new AboutDialog(BookListActivity.this, R.style.FullHeightDialog);
-			about.show();
-			about.setMessage1(getString(R.string.about_book));
-			about.setMessage2(getString(R.string.app_name));
-			about.setMessage3(getString(R.string.aboue_text1));*/
+			Intent intent2 = new Intent();
+			intent2.setClass(BookListActivity.this, AboutActivity.class);
+			startActivity(intent2);
 			break;
 		}
         return super.onOptionsItemSelected(item);
@@ -231,7 +233,7 @@ public class BookListActivity extends Activity {
 				// 用户打开文件，返回一个完整的文件路径
 				Bundle b = data.getExtras();
 	            String str = b.getString("FILE_PATH");  
-				Log.d(TAG, "onActivityResult str = " + str);
+				Logger.d(TAG, "onActivityResult str = " + str);
 				EBook book = new EBook();
 				book.setPath(str);
 				book.setBookName(str.substring(str.lastIndexOf("/") + 1, str.length() - 4));
@@ -254,11 +256,17 @@ public class BookListActivity extends Activity {
 		case 0:// 删除文件
 				// 获取点击的是哪一个文件
 			menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-			HashMap<String, Object> imap = listItem.get(menuInfo.position);
-			int id = (Integer) imap.get("id");
-			int rowsAffected = DataSupport.delete(EBook.class, id);
-			Toast.makeText(this, getString(R.string.delsuc), Toast.LENGTH_SHORT).show();
-			getDataForBookList();
+			if(menuInfo.position != 0){
+				HashMap<String, Object> imap = listItem.get(menuInfo.position);
+				int id = (Integer) imap.get("id");
+				int rowsAffected = DataSupport.delete(EBook.class, id);
+				Logger.d(TAG, "删除成功 " + rowsAffected);
+				Toast.makeText(this, getString(R.string.delsuc), Toast.LENGTH_SHORT).show();
+				getDataForBookList();
+			} else{
+				Toast.makeText(this, getString(R.string.cannotdel), Toast.LENGTH_SHORT).show();
+				
+			}
 			break;
 
 		case 1:// 创建快捷方式

@@ -4,24 +4,19 @@
 package com.pmmq.bookreader;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import com.pmmq.bookreader.util.Logger;
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-public class OpenFileActivity extends Activity {
+@SuppressLint("SdCardPath") public class OpenFileActivity extends Activity {
 
 	private String TAG = "OpenFileActivity";
 	
@@ -58,7 +53,6 @@ public class OpenFileActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				int itemType = mAdapter.getItemType((int)id);
-				String mPath = "";
 				if (itemType == FOLDER){								// 是文件夹
 					/*String s = mAdapter.getItem((int)id).name;
 					if (s.equals("..")){
@@ -73,7 +67,7 @@ public class OpenFileActivity extends Activity {
 					} else {											// 是文件
 						Bundle bundle = new Bundle();
 
-						Log.d(TAG, "FILE_PATH:" + mAdapter.getItem((int)id).path + "/" 
+						Logger.d(TAG, "FILE_PATH:" + mAdapter.getItem((int)id).path + "/" 
 								+ mAdapter.getItem((int)id).name);
 						
 						bundle.putString("FILE_PATH", mAdapter.getItem((int)id).path + "/" 
@@ -94,7 +88,7 @@ public class OpenFileActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Log.d(TAG, "onResume");
+		Logger.d(TAG, "onResume");
 		MobclickAgent.onResume(this);
 	}
     
@@ -109,8 +103,8 @@ public class OpenFileActivity extends Activity {
 		mAdapter.notifyDataSetChanged();
 		mlvFileList.postInvalidate();
 		
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = null;
+		/*List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		Map<String, Object> map = null;*/
 		File f = new File(mDir);
 		File[] files = f.listFiles();
 
@@ -157,8 +151,8 @@ public class OpenFileActivity extends Activity {
 		
 		File[] files = aDirectory.listFiles();
 		
-		Log.d(TAG, "ListFile:" + aDirectory.toString());
-//		Log.d(TAG, "ListFile:" + aDirectory.listFiles().toString());
+		Logger.d(TAG, "ListFile:" + aDirectory.toString());
+//		Logger.d(TAG, "ListFile:" + aDirectory.listFiles().toString());
 		if (files != null) {
 		for(File f : aDirectory.listFiles()){
 			if (f.isDirectory()){

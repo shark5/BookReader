@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BookReader</string>
+    <string name="app_name">绝世唐门</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
@@ -18,8 +18,15 @@
     <string name="bookpop_night">夜间</string>
     
     <string name="delsuc">删除成功</string>
+    <string name="cannotdel">推荐书目不可删除</string>
     <string name="insertsdcard">请插入SD卡</string>
     
-    <string name="dialog_read_from_dir">Open from dir</string>
+    <string name="dialog_read_from_dir">选择电子书</string>
     <string name="explorer">Explorer</string>
+    
+    <string name="mybookrack">我的书架</string>
+    
+    <string name="author">作者：shark</string>
+    <string name="QQ">QQ：458869507</string>
+    
 </resources>

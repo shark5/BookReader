@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 
 import com.pmmq.bookreader.model.EBook;
+import com.pmmq.bookreader.util.Logger;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,7 +18,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Paint.Align;
-import android.util.Log;
 
 public class BookPageFactory {
 
@@ -42,6 +42,7 @@ public class BookPageFactory {
 	private int marginWidth = 15; // 左右与边缘的距离
 	private int mHeight;
 	private int mLineCount; // 每页可以显示的行数
+	private int mSpace = 20;  //两行之间的空隙
 	private Paint mPaint;
 
 	private float mVisibleHeight; // 绘制内容的宽
@@ -61,7 +62,7 @@ public class BookPageFactory {
 		mPaint.setColor(m_textColor);// 字体颜色
 		mVisibleWidth = mWidth - marginWidth * 2;
 		mVisibleHeight = mHeight - marginHeight * 2;
-		mLineCount = (int) (mVisibleHeight / m_fontSize) - 1; // 可显示的行数,-1是因为底部显示进度的位置容易被遮住
+		mLineCount = (int) (mVisibleHeight / (m_fontSize + mSpace)) - 1; // 可显示的行数,-1是因为底部显示进度的位置容易被遮住
 	}
 
 	public int getM_fontSize() {
@@ -102,7 +103,7 @@ public class BookPageFactory {
 	}
 
 	public void onJDraw(Canvas c) {
-		Log.d(TAG, "onJDraw m_book_bg = " + m_book_bg);
+		Logger.d(TAG, "onJDraw m_book_bg = " + m_book_bg);
 		mPaint.setTextSize(m_fontSize);
 		mPaint.setColor(m_textColor);
 		if (m_lines.size() == 0)
@@ -119,7 +120,8 @@ public class BookPageFactory {
 			
 			int y = marginHeight;
 			for (String strLine : m_lines) {
-				y += m_fontSize;
+//				y += m_fontSize;
+				y = y + m_fontSize + mSpace;
 				c.drawText(strLine, marginWidth, y, mPaint);
 			}
 		}
@@ -130,10 +132,17 @@ public class BookPageFactory {
 		c.drawText(strPercent, mWidth - nPercentWidth, mHeight - 5, mPaint);
 		
 		mPencent = df.format(fPercent * 100);
+		Logger.d(TAG, "m_mbBufBegin:" + m_mbBufBegin);
+		Logger.d(TAG, "m_mbBufLen:" + m_mbBufLen);
+		Logger.d(TAG, "fPercent:" + fPercent);
+		Logger.d(TAG, "strPercent:" + strPercent);
+		Logger.d(TAG, "nPercentWidth:" + nPercentWidth);
+		Logger.d(TAG, "mPencent:" + mPencent);
+		
 		EBook book = new EBook();
 		book.setProgress(Float.valueOf(getPencent()));
 		int rowsAffected = book.update(bookId);
-		Log.d(TAG, "update pencent " + rowsAffected);
+		Logger.d(TAG, "update pencent " + rowsAffected);
 	}
 
 	/**
@@ -152,7 +161,7 @@ public class BookPageFactory {
 		m_mbBufLen = (int) lLen;
 		m_mbBuf = new RandomAccessFile(book_file, "r").getChannel().map(
 				FileChannel.MapMode.READ_ONLY, 0, lLen);
-		Log.d(TAG, "total lenth：" + m_mbBufLen);
+		Logger.d(TAG, "openbook  total lenth：" + m_mbBufLen);
 		// 设置已读进度
 		if (begin >= 0) {
 			m_mbBufBegin = begin;
@@ -177,7 +186,7 @@ public class BookPageFactory {
 			try {
 				strParagraph = new String(paraBuf, m_strCharsetName);// 转换成制定GBK编码
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "pageDown->转换编码失败", e);
+				Logger.e(TAG, "pageDown->转换编码失败", e);
 			}
 			String strReturn = "";
 			// 替换掉回车换行符
@@ -209,7 +218,7 @@ public class BookPageFactory {
 					m_mbBufEnd -= (strParagraph + strReturn)
 							.getBytes(m_strCharsetName).length;
 				} catch (UnsupportedEncodingException e) {
-					Log.e(TAG, "pageDown->记录结束点位置失败", e);
+					Logger.e(TAG, "pageDown->记录结束点位置失败", e);
 				}
 			}
 		}
@@ -231,7 +240,7 @@ public class BookPageFactory {
 			try {
 				strParagraph = new String(paraBuf, m_strCharsetName);
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "pageUp->转换编码失败", e);
+				Logger.e(TAG, "pageUp->转换编码失败", e);
 			}
 			strParagraph = strParagraph.replaceAll("\r\n", "");
 			strParagraph = strParagraph.replaceAll("\n", "");
@@ -254,7 +263,7 @@ public class BookPageFactory {
 				m_mbBufBegin += lines.get(0).getBytes(m_strCharsetName).length;
 				lines.remove(0);
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "pageUp->记录起始点位置失败", e);
+				Logger.e(TAG, "pageUp->记录起始点位置失败", e);
 			}
 		}
 		m_mbBufEnd = m_mbBufBegin;// 上上一页的结束点等于上一页的起始点
@@ -378,13 +387,13 @@ public class BookPageFactory {
 
 	public void setBgBitmap(Bitmap BG) {
 
-		Log.d(TAG, "setBgBitmap BG = " + BG);
+		Logger.d(TAG, "setBgBitmap BG = " + BG);
 		m_book_bg = BG;
 	}
 
 	public void setM_fontSize(int m_fontSize) {
 		this.m_fontSize = m_fontSize;
-		mLineCount = (int) (mVisibleHeight / m_fontSize) - 1;
+		mLineCount = (int) (mVisibleHeight / (m_fontSize + mSpace)) - 1;
 	}
 
 	// 设置页面起始点

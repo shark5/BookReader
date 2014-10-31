@@ -6,20 +6,15 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageView;
-import android.widget.Button;
 import android.widget.BaseAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.content.Context;
-import android.util.Log;
-import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
-import android.view.WindowManager;
-import android.view.Display;
-import android.view.WindowManager.LayoutParams;
 
 import java.util.List;
 import java.util.Map;
@@ -27,9 +22,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.File;
 
+import com.pmmq.bookreader.util.Logger;
 import com.umeng.analytics.MobclickAgent;
 
-public class ExDialog extends ListActivity {
+@SuppressLint("SdCardPath") public class ExDialog extends ListActivity {
 	private List<Map<String, Object>> mData;
 	private String mDir = "/sdcard";
 	private final static String mFileExt = "txt";	// 只处理txt格式的文件 
@@ -50,19 +46,19 @@ public class ExDialog extends ListActivity {
 		MyAdapter adapter = new MyAdapter(this);
 		setListAdapter(adapter);
 
-		WindowManager m = getWindowManager();
+		/*WindowManager m = getWindowManager();
 		Display d = m.getDefaultDisplay();
 		LayoutParams p = getWindow().getAttributes();
 		p.height = (int) (d.getHeight() * 0.8);
 		p.width = (int) (d.getWidth() * 0.95);
-		getWindow().setAttributes(p);
+		getWindow().setAttributes(p);*/
 	}
 	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Log.d(TAG, "onResume");
+		Logger.d(TAG, "onResume");
 		MobclickAgent.onResume(this);
 	}
     
@@ -94,7 +90,7 @@ public class ExDialog extends ListActivity {
 					map.put("title", files[i].getName());
 					map.put("info", files[i].getPath());
 					list.add(map);
-				}else{
+				} else{
 					if (checkExt(files[i].getName().toLowerCase())) {
 						map.put("img", R.drawable.ex_doc);
 						map.put("title", files[i].getName());
@@ -123,7 +119,7 @@ public class ExDialog extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Log.d("MyListView4-click", (String) mData.get(position).get("info"));
+		Logger.d("MyListView4-click", (String) mData.get(position).get("info"));
 		if ((Integer) mData.get(position).get("img") == R.drawable.ex_folder) {
 			mDir = (String) mData.get(position).get("info");
 			mData = getData();
@@ -190,7 +186,7 @@ public class ExDialog extends ListActivity {
 				"vnd.android.cursor.dir/lysesoft.andexplorer.file");*/
 		Bundle bundle = new Bundle();
 
-		Log.d(TAG, "FILE_PATH:" + path);
+		Logger.d(TAG, "FILE_PATH:" + path);
 		
 		bundle.putString("FILE_PATH", path);
 		Intent mIntent = new Intent();
